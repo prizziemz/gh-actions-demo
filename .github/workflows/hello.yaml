@@ -7,6 +7,21 @@ on:
   repository_dispatch:
     types: [on-demand-test]      
 jobs:
+  echo-vars:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ecgi Environment Variables 
+        env:
+          APP_VERSION: 1.0.0
+        run: |
+           echo "This job trigeered by ${GITHUB_EVENT_NAME} event and the repository name is ${GITHUB_REPOSITORY}";
+           echo "The workflow name is ${GITHUB_WORKFLOW} and the workflow run ID is ${GITHUB_RUN_ID}";
+           echo "The workflow run number is ${GITHUB_RUN_NUMBER} and the job name is ${GITHUB_JOB}";
+           echo "The actor who triggered the workflow is ${GITHUB_ACTOR} and the event name is ${GITHUB_EVENT_NAME}";
+           echo "The event path is ${GITHUB_EVENT_PATH} and the workspace path is ${GITHUB_WORKSPACE}";
+           echo "The server URL is ${GITHUB_SERVER_URL} and the API URL is ${GITHUB_API_URL}";
+           echo "The GraphQL URL is ${GITHUB_GRAPHQL_URL} and the repository owner is ${GITHUB_REPOSITORY_OWNER}";
+           echo "version of the application is ${APP_VERSION}";
   hello-job: 
     runs-on: ubuntu-latest
     steps:
