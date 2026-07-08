@@ -12,6 +12,7 @@ jobs:
       run: echo "Hello Github Actions 3 2!"
   Second-job:
     runs-on: ubuntu-latest
+    needs: hello-job
     steps:
       - name: "Check runner OS and name" 
         run: echo "This job is running on ${RUNNER_OS} and the runner name is ${RUNNER_NAME}"      
