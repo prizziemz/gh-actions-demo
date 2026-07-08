@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ecgi Environment Variables 
+        if: ${{ runner.os == 'Linux' }}
         env:
           APP_VERSION: "1.0.0"
           RUNNER_CONTENT: ${{ runner.content }}
@@ -24,7 +25,9 @@ jobs:
            echo "The GraphQL URL is ${GITHUB_GRAPHQL_URL} and the repository owner is ${GITHUB_REPOSITORY_OWNER}";
            echo "version of the application is ${APP_VERSION}";
            echo "The runner content is ${RUNNER_CONTENT}";
+           echo "The Database password is ${secrets.DB_PASSWORD}";
   hello-job:
+    if: ${{ github.event.client_payload.status != 'complated'  }}
     name: Test Job1
     runs-on: ubuntu-latest
     steps:
@@ -37,8 +40,10 @@ jobs:
           echo "Client Payload Message: ${{ github.event.client_payload.message }}"
   
   Second-job:
-    runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'on-demand-test'  }}
+    runs-on: widdows-latest
     needs: hello-job
     steps:
       - name: "Check runner OS and name" 
-        run: echo "This job is running on ${RUNNER_OS} and the runner name is ${RUNNER_NAME}"      
+        run: echo "This job is running on ${RUNNER_OS} and the runner name is ${RUNNER_NAME}"
+        if: ${{ runner_od == 'linux' }}      
