@@ -27,8 +27,10 @@ jobs:
     steps:
     - name: Run a one-line script
       run: echo "Hello Github Actions 3 2!"
-    - name: Retrive Client payload 
-      run: echo "Client payload is ${github.event.client_payload.status}"
+    - name: Show payload from external trigger
+        run: |
+          echo "Trigger Event: ${{ github.event_name }}"
+          echo "Client Payload Message: ${{ github.event.client_payload.message }}"   
   Second-job:
     runs-on: ubuntu-latest
     needs: hello-job
