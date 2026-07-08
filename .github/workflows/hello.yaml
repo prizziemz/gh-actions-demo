@@ -12,7 +12,8 @@ jobs:
     steps:
       - name: Ecgi Environment Variables 
         env:
-          APP_VERSION: 1.0.0
+          APP_VERSION: "1.0.0"
+          RUNNER_CONTENT: ${{ runner.content }}
         run: |
            echo "This job trigeered by ${GITHUB_EVENT_NAME} event and the repository name is ${GITHUB_REPOSITORY}";
            echo "The workflow name is ${GITHUB_WORKFLOW} and the workflow run ID is ${GITHUB_RUN_ID}";
@@ -22,15 +23,19 @@ jobs:
            echo "The server URL is ${GITHUB_SERVER_URL} and the API URL is ${GITHUB_API_URL}";
            echo "The GraphQL URL is ${GITHUB_GRAPHQL_URL} and the repository owner is ${GITHUB_REPOSITORY_OWNER}";
            echo "version of the application is ${APP_VERSION}";
-  hello-job: 
+           echo "The runner content is ${RUNNER_CONTENT}";
+  hello-job:
+    name: Test Job1
     runs-on: ubuntu-latest
     steps:
-    - name: Run a one-line script
-      run: echo "Hello Github Actions 3 2!"
-    - name: Show payload from external trigger
+      - name: Run a one-line script
+        run: echo "Hello Github Actions! na"
+
+      - name: Show payload from external trigger
         run: |
           echo "Trigger Event: ${{ github.event_name }}"
-          echo "Client Payload Message: ${{ github.event.client_payload.message }}"   
+          echo "Client Payload Message: ${{ github.event.client_payload.message }}"
+  
   Second-job:
     runs-on: ubuntu-latest
     needs: hello-job
