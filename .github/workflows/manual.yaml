@@ -1,12 +1,40 @@
 on:
   workflow_dispatch:
-job:
+    inputs:
+      environment:
+        description: "Environment to deploy to"
+        required: true
+        type: choice
+        options:
+          - staging
+          - production
+        default: "staging"
+      run_ui_test:
+        description: "Run UI tests before deployment"
+        required: true
+        type: boolean
+        default: false
+      run_test:
+        description: "Run tests before deployment"
+        required: true
+        type: boolean
+        default: false
+jobs:
   build:
-    step:
-      - name: Checkout source code
-        user: action/checkoout@v7.0.0
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.0
         with:
-          repository: ${{github.repository}}
-          ref: ${{github.ref_name}}
-      - name: List files in workspaces
-        run: ls ${{github.workspace}}   
+          repository: ${{ github.repository }}
+          ref: ${{github.ref}}
+          fetch-depth: 0
+      - name: List files in the repository
+        run: ls ${{github.workspace}}
+  test:
+    runs-on: ubuntu-latest
+    if: ${{ inputs.run_ui_test == true }}
+    steps:
+      - name: Ui Testing
+        run: echo "Running UI tests... in ${{ inputs.environment }} environment"
+ 
