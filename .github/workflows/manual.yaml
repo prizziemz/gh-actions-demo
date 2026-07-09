@@ -37,7 +37,7 @@ jobs:
         id: set-status
         run: |
          echo "Get result from building process"
-         echo "status=success" >>$GITHUT_OUTPUT
+         echo "status=success" >> $GITHUB_OUTPUT
   test:
     runs-on: ubuntu-latest
     if: ${{ inputs.run_ui_test == true }}
