@@ -39,9 +39,13 @@ jobs:
          echo "Get result from building process"
          echo "status=success" >> $GITHUB_OUTPUT
   test:
+    needs: build
     runs-on: ubuntu-latest
     if: ${{ inputs.run_ui_test == true }}
     steps:
       - name: Ui Testing
-        run: echo "Running UI tests... in ${{ inputs.environment }} environment"
+        if: ${{ inputs.run_ui_test == true }}
+        run: |
+          echo "The build status is  ${{ inputs.environment }} "
+          echo "Run UI tools ... in ${{ inputs.environment }} environment"
  
