@@ -22,6 +22,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      build_status: ${{ steps.set-status.outputs.status }}      
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7.0.0
@@ -31,6 +33,11 @@ jobs:
           fetch-depth: 0
       - name: List files in the repository
         run: ls ${{github.workspace}}
+      - name: set-status
+        id: set-status
+        run: |
+         echo "Get result from building process"
+         echo "status=success" >>$GITHUT_OUTPUT
   test:
     runs-on: ubuntu-latest
     if: ${{ inputs.run_ui_test == true }}
